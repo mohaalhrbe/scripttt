@@ -348,7 +348,7 @@ function applyTheme(themeName)
             if child:IsA("UIStroke") then
                 child.Color = toTheme.AccentLight
             elseif child:IsA("TextLabel") then
-                if child.Text == "SXE HUB PRIVAT" or child.Text == "|" or child.Text == "discord.gg/sxehub" then
+                if child.Text == "Moh🔥" or child.Text == "|" or child.Text == "discord.gg/mohhub" then
                     child.TextColor3 = toTheme.AccentLight
                 elseif child.Text == "By:@SE67 and @SXLVATORE" then
                     child.TextColor3 = toTheme.Dim
@@ -1592,7 +1592,7 @@ local function kickPlayer(stolenText)
         return
     end
     pcall(function() game:Shutdown() end)
-    pcall(function() LocalPlayer:Kick("\nSXE HUB PRIVAT") end)
+    pcall(function() LocalPlayer:Kick("\nMoh🔥") end)
 end
 
 -- SHARED STATE
@@ -7799,8 +7799,8 @@ end
 
 function makeHeader(f,t,isMain) local h=Instance.new("Frame"); h.Size=UDim2.new(1,0,0,42); h.BackgroundTransparency=1; h.Parent=f
     local parts={}; for s in string.gmatch(t,"([^\n]+)") do table.insert(parts,s) end
-    if isMain then local l=Instance.new("TextLabel"); l.Size=UDim2.new(1,-50,0,24); l.Position=UDim2.new(0,13,0,8); l.BackgroundTransparency=1; l.Text=parts[1] or "SXE HUB PRIVAT"; l.TextColor3=Theme.Text; l.Font=Enum.Font.GothamBlack; l.TextSize=16; l.TextXAlignment=Enum.TextXAlignment.Left; l.Parent=h
-    else local l=Instance.new("TextLabel"); l.Size=UDim2.new(1,-58,0,16); l.Position=UDim2.new(0,12,0,7); l.BackgroundTransparency=1; l.Text=parts[1] or "SXE HUB PRIVAT"; l.TextColor3=Theme.Text; l.Font=Enum.Font.GothamBlack; l.TextSize=12; l.TextXAlignment=Enum.TextXAlignment.Center; l.Parent=h
+    if isMain then local l=Instance.new("TextLabel"); l.Size=UDim2.new(1,-50,0,24); l.Position=UDim2.new(0,13,0,8); l.BackgroundTransparency=1; l.Text=parts[1] or "moh🔥"; l.TextColor3=Theme.Text; l.Font=Enum.Font.GothamBlack; l.TextSize=16; l.TextXAlignment=Enum.TextXAlignment.Left; l.Parent=h
+    else local l=Instance.new("TextLabel"); l.Size=UDim2.new(1,-58,0,16); l.Position=UDim2.new(0,12,0,7); l.BackgroundTransparency=1; l.Text=parts[1] or "Moh🔥"; l.TextColor3=Theme.Text; l.Font=Enum.Font.GothamBlack; l.TextSize=12; l.TextXAlignment=Enum.TextXAlignment.Center; l.Parent=h
         local s=Instance.new("TextLabel"); s.Size=UDim2.new(1,-58,0,13); s.Position=UDim2.new(0,12,0,21); s.BackgroundTransparency=1; s.Text=parts[2] or ""; s.TextColor3=Theme.Dim; s.Font=Enum.Font.GothamMedium; s.TextSize=10; s.TextXAlignment=Enum.TextXAlignment.Center; s.Parent=h end
     local d=Instance.new("Frame"); d.Size=UDim2.new(1,-24,0,1); d.Position=UDim2.new(0,12,0,40); d.BackgroundColor3=Theme.AccentLight; d.BackgroundTransparency=isMain and 0.25 or 0.04; d.BorderSizePixel=0; d.Parent=f
     makeDraggable(f,h,t); return h end
@@ -8011,24 +8011,24 @@ function makeKeybindRow(parent,nameText)
 end
 
 -- CREATE PANELS
-main,mainBody=makeMainPanel("SXE HUB PRIVAT",UDim2.new(0,375,0,480),UDim2.new(0.5,-187,0.5,-255))
+main,mainBody=makeMainPanel("Moh🔥",UDim2.new(0,375,0,480),UDim2.new(0.5,-187,0.5,-255))
 if Config.AutoCloseOnExec then main.Visible = false end
-panels["Invisible Steal Panel"],panels["InvisStealBody"]=makeQuickPanel("SXE HUB PRIVAT\nInvisible Steal",UDim2.new(0,230,0,375),UDim2.new(0,80,0.5,-220))
+panels["Invisible Steal Panel"],panels["InvisStealBody"]=makeQuickPanel("Moh🔥\nInvisible Steal",UDim2.new(0,230,0,375),UDim2.new(0,80,0.5,-220))
 panels["InvisStealBody"].ScrollBarThickness = 0
 panels["InvisStealBody"].ScrollingEnabled = false
-panels["Admin Command Panel"],panels["AdminBody"]=makeQuickPanel("SXE HUB PRIVAT\nAdmin Command Panel",UDim2.new(0,225,0,240),UDim2.new(0.5,85,1,-340))
-panels["Command Cooldowns"],panels["CooldownBody"]=makeQuickPanel("SXE HUB PRIVAT\nCommand Cooldowns",UDim2.new(0,210,0,315),UDim2.new(0.5,245,1,-390))
-panels["Actions"],panels["ActionsBody"]=makeQuickPanel("SXE HUB PRIVAT\nActions",UDim2.new(0,230,0,340),UDim2.new(0.5,505,1,-415))
-panels["Steal Panel"],panels["StealBody"]=makeQuickPanel("SXE HUB PRIVAT\nSteal Panel",UDim2.new(0,235,0,300),UDim2.new(1,-300,1,-385))
-panels["Steal Target"],panels["TargetBody"]=makeQuickPanel("SXE HUB PRIVAT\nSteal Target",UDim2.new(0,320,0,380),UDim2.new(1,-330,0,85))
-actionSettingsPanel,actionSettingsBody=makeQuickPanel("SXE HUB PRIVAT\nAction Settings",UDim2.new(0,230,0,370),UDim2.new(0.5,745,1,-440))
+panels["Admin Command Panel"],panels["AdminBody"]=makeQuickPanel("Moh🔥\nAdmin Command Panel",UDim2.new(0,225,0,240),UDim2.new(0.5,85,1,-340))
+panels["Command Cooldowns"],panels["CooldownBody"]=makeQuickPanel("Moh🔥\nCommand Cooldowns",UDim2.new(0,210,0,315),UDim2.new(0.5,245,1,-390))
+panels["Actions"],panels["ActionsBody"]=makeQuickPanel("Moh🔥\nActions",UDim2.new(0,230,0,340),UDim2.new(0.5,505,1,-415))
+panels["Steal Panel"],panels["StealBody"]=makeQuickPanel("Moh🔥\nSteal Panel",UDim2.new(0,235,0,300),UDim2.new(1,-300,1,-385))
+panels["Steal Target"],panels["TargetBody"]=makeQuickPanel("Moh🔥\nSteal Target",UDim2.new(0,320,0,380),UDim2.new(1,-330,0,85))
+actionSettingsPanel,actionSettingsBody=makeQuickPanel("Moh🔥\nAction Settings",UDim2.new(0,230,0,370),UDim2.new(0.5,745,1,-440))
 actionSettingsPanel.Visible=false
-tpSpeedSettingsPanel,tpSpeedSettingsBody=makeQuickPanel("SXE HUB PRIVAT\nTP & Clone Settings",UDim2.new(0,235,0,325),UDim2.new(0.5,745,1,-440))
+tpSpeedSettingsPanel,tpSpeedSettingsBody=makeQuickPanel("Moh🔥\nTP & Clone Settings",UDim2.new(0,235,0,325),UDim2.new(0.5,745,1,-440))
 tpSpeedSettingsPanel.Visible=false
-for _,pair in ipairs({{"SXE HUB PRIVAT",main},{"SXE HUB PRIVAT\nInvisible Steal",panels["Invisible Steal Panel"]},
-    {"SXE HUB PRIVAT\nAdmin Command Panel",panels["Admin Command Panel"]},{"SXE HUB PRIVAT\nCommand Cooldowns",panels["Command Cooldowns"]},
-    {"SXE HUB PRIVAT\nActions",panels["Actions"]},{"SXE HUB PRIVAT\nSteal Panel",panels["Steal Panel"]},{"SXE HUB PRIVAT\nSteal Target",panels["Steal Target"]},
-    {"SXE HUB PRIVAT\nAction Settings",actionSettingsPanel},{"SXE HUB PRIVAT\nTP & Clone Settings",tpSpeedSettingsPanel}}) do applySavedPosition(pair[1],pair[2]) end
+for _,pair in ipairs({{"Moh🔥",main},{"Moh🔥nInvisible Steal",panels["Invisible Steal Panel"]},
+    {"Moh🔥\nAdmin Command Panel",panels["Admin Command Panel"]},{"Moh🔥\nCommand Cooldowns",panels["Command Cooldowns"]},
+    {"Moh🔥\nActions",panels["Actions"]},{"Moh🔥\nSteal Panel",panels["Steal Panel"]},{"Moh🔥\nSteal Target",panels["Steal Target"]},
+    {"Moh🔥\nAction Settings",actionSettingsPanel},{"Moh🔥\nTP & Clone Settings",tpSpeedSettingsPanel}}) do applySavedPosition(pair[1],pair[2]) end
 
 -- LAZY UI LOADING
 if _G.addLazyUI then
@@ -9456,9 +9456,9 @@ _G.updateLogoImage = function(isDark)
     iw.BackgroundColor3 = Theme.SoftAccent
 end
 _G.updateLogoImage(Config and Config.DarkMode or false)
-local lg=Instance.new("TextLabel"); lg.Size=UDim2.new(0,150,0,26); lg.Position=UDim2.new(0,54,0,5); lg.BackgroundTransparency=1; lg.Text="SXE HUB PRIVAT"; lg.TextColor3=Theme.AccentLight; lg.Font=Enum.Font.GothamBlack; lg.TextSize=19; lg.TextXAlignment=Enum.TextXAlignment.Left; lg.Parent=bottomBar
+local lg=Instance.new("TextLabel"); lg.Size=UDim2.new(0,150,0,26); lg.Position=UDim2.new(0,54,0,5); lg.BackgroundTransparency=1; lg.Text="Moh🔥"; lg.TextColor3=Theme.AccentLight; lg.Font=Enum.Font.GothamBlack; lg.TextSize=19; lg.TextXAlignment=Enum.TextXAlignment.Left; lg.Parent=bottomBar
 local dd=Instance.new("TextLabel"); dd.Size=UDim2.new(0,20,0,26); dd.Position=UDim2.new(0,210,0,5); dd.BackgroundTransparency=1; dd.Text="|"; dd.TextColor3=Theme.AccentLight; dd.Font=Enum.Font.GothamBlack; dd.TextSize=18; dd.Parent=bottomBar
-local dc=Instance.new("TextLabel"); dc.Size=UDim2.new(0,210,0,26); dc.Position=UDim2.new(0,230,0,5); dc.BackgroundTransparency=1; dc.Text="discord.gg/sxehub"; dc.TextColor3=Theme.AccentLight; dc.Font=Enum.Font.GothamBold; dc.TextSize=16; dc.TextXAlignment=Enum.TextXAlignment.Left; dc.Parent=bottomBar
+local dc=Instance.new("TextLabel"); dc.Size=UDim2.new(0,210,0,26); dc.Position=UDim2.new(0,230,0,5); dc.BackgroundTransparency=1; dc.Text="discord.gg/mohhub"; dc.TextColor3=Theme.AccentLight; dc.Font=Enum.Font.GothamBold; dc.TextSize=16; dc.TextXAlignment=Enum.TextXAlignment.Left; dc.Parent=bottomBar
 local sb=Instance.new("TextLabel"); sb.Size=UDim2.new(0,290,0,14); sb.Position=UDim2.new(0,55,0,30); sb.BackgroundTransparency=1; sb.Text="By:@SE67 and @SXLVATORE"; sb.TextColor3=Theme.Dim; sb.Font=Enum.Font.GothamSemibold; sb.TextSize=8; sb.TextXAlignment=Enum.TextXAlignment.Left; sb.Parent=bottomBar
 local rightDiv=Instance.new("Frame"); rightDiv.Size=UDim2.new(0,1,0,36); rightDiv.Position=UDim2.new(1,-138,0.5,-18); rightDiv.BackgroundColor3=Theme.Accent; rightDiv.BackgroundTransparency=0.35; rightDiv.BorderSizePixel=0; rightDiv.Parent=bottomBar
 fpsText=Instance.new("TextLabel"); fpsText.Size=UDim2.new(0,126,1,0); fpsText.Position=UDim2.new(1,-128,0,0); fpsText.BackgroundTransparency=1; fpsText.Text="FPS: --\nPING: --ms"; fpsText.TextColor3=Theme.Green; fpsText.Font=Enum.Font.GothamBold; fpsText.TextSize=10; fpsText.TextXAlignment=Enum.TextXAlignment.Left; fpsText.Parent=bottomBar
@@ -9581,7 +9581,7 @@ end)
 _G.InvisStealAngle=Config.InvisStealAngle or 225; _G.SinkSliderValue=Config.SinkSliderValue or 7
 _G.AutoRecoverLagback=true; _G.AutoInvisDuringSteal=Config.AutoInvisDuringSteal or false
 
-print("SXE HUB PRIVAT loaded ")
+print("Moh🔥 loaded ")
 
 
 task.spawn(function()
