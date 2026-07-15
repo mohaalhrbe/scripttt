@@ -165,8 +165,7 @@ task.delay(4.0, function()
 end)
 
 local player = Players.LocalPlayer
-local ExploitGui = (gethui and gethui()) or (typeof(protect_gui) == "function" and (function() local g = Instance.new("ScreenGui") protect_gui(g) return g.Parent end)()) or game:GetService("CoreGui")
-local playerGui = ExploitGui
+local playerGui = player:WaitForChild("PlayerGui")
 pcall(function() Players.RespawnTime = 0 end)
 
 -- GLOBAL SCALE SYSTEM (Mobile Friendly Auto-Scaling)
@@ -182,7 +181,7 @@ local function updateAllGuisScale(newScale)
     for sg, master in pairs(scaledGuis) do
         pcall(function()
             if sg and sg.Parent and master and master.Parent then
-                local scaleObj = master:FindFirstChild("uCaGSHAfAeXH")
+                local scaleObj = master:FindFirstChild("SXE_GlobalScale")
                 if scaleObj then
                     scaleObj.Scale = newScale
                 end
@@ -193,22 +192,22 @@ local function updateAllGuisScale(newScale)
 end
 
 local function registerScreenGui(sg)
-    local master = sg:FindFirstChild("AWUDhqnuyUaj")
+    local master = sg:FindFirstChild("SXE_MasterFrame")
     if not master then
         master = Instance.new("Frame")
-        master.Name = "AWUDhqnuyUaj"
+        master.Name = "SXE_MasterFrame"
         master.BackgroundTransparency = 1
         master.BorderSizePixel = 0
         master.Parent = sg
         
         local scaleObj = Instance.new("UIScale")
-        scaleObj.Name = "uCaGSHAfAeXH"
+        scaleObj.Name = "SXE_GlobalScale"
         scaleObj.Parent = master
     end
     scaledGuis[sg] = master
     
     pcall(function()
-        local scaleObj = master:FindFirstChild("uCaGSHAfAeXH")
+        local scaleObj = master:FindFirstChild("SXE_GlobalScale")
         if scaleObj then
             scaleObj.Scale = GlobalUIScaleVal
         end
@@ -247,10 +246,8 @@ end
 Workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(setupCameraListener)
 task.spawn(setupCameraListener)
 
--- Initializing
-pcall(function()
-local old = playerGui:FindFirstChild("AnwVcVqithFD"); if old then old:Destroy() end
-local gui_sg = Instance.new("ScreenGui"); gui_sg.Name = "AnwVcVqithFD"; gui_sg.ResetOnSpawn = false; gui_sg.IgnoreGuiInset = true; gui_sg.DisplayOrder = 9999999; gui_sg.Parent = ExploitGui
+local old = playerGui:FindFirstChild("SXEHub_V3"); if old then old:Destroy() end
+local gui_sg = Instance.new("ScreenGui"); gui_sg.Name = "SXEHub_V3"; gui_sg.ResetOnSpawn = false; gui_sg.IgnoreGuiInset = true; gui_sg.DisplayOrder = 9999999; gui_sg.Parent = playerGui
 local gui = registerScreenGui(gui_sg)
 
 -- SHARED TOGGLE STATE
@@ -278,23 +275,23 @@ local loadConfig
 -- THEME (SXE Pink)
 Themes = {
     Light = {
-        Background=Color3.fromRGB(15,15,15), MainBackground=Color3.fromRGB(10,10,10),
-        Panel=Color3.fromRGB(20,20,20), Row=Color3.fromRGB(25,25,25), RowHover=Color3.fromRGB(35,35,35),
-        Accent=Color3.fromRGB(0, 120, 255), AccentLight=Color3.fromRGB(0, 160, 255),
-        Green=Color3.fromRGB(0, 200, 255), Red=Color3.fromRGB(237,150,189), Red2=Color3.fromRGB(220,104,162),
-        Text=Color3.fromRGB(255, 255, 255), Dim=Color3.fromRGB(205,151,180), Stroke=Color3.fromRGB(20, 20, 40),
+        Background=Color3.fromRGB(255,255,255), MainBackground=Color3.fromRGB(255,252,255),
+        Panel=Color3.fromRGB(255,249,252), Row=Color3.fromRGB(252,245,249), RowHover=Color3.fromRGB(250,238,245),
+        Accent=Color3.fromRGB(232,111,177), AccentLight=Color3.fromRGB(238,98,178),
+        Green=Color3.fromRGB(235,117,181), Red=Color3.fromRGB(237,150,189), Red2=Color3.fromRGB(220,104,162),
+        Text=Color3.fromRGB(236,108,174), Dim=Color3.fromRGB(205,151,180), Stroke=Color3.fromRGB(248,188,219),
         SoftButton=Color3.fromRGB(249,240,245), SoftButtonHover=Color3.fromRGB(246,232,240),
         SoftAccent=Color3.fromRGB(244,223,233), SoftAccentHover=Color3.fromRGB(241,213,228),
         ToggleOff=Color3.fromRGB(255,231,243), ToggleOff2=Color3.fromRGB(255,236,245),
-        InputBg=Color3.fromRGB(255,255,255), SliderBg=Color3.fromRGB(30, 30, 30),
+        InputBg=Color3.fromRGB(255,255,255), SliderBg=Color3.fromRGB(243,204,223),
         BlacklistHover=Color3.fromRGB(255,220,225), BlacklistLeave=Color3.fromRGB(255,240,248),
     },
     Dark = {
-        Background=Color3.fromRGB(10,10,10), MainBackground=Color3.fromRGB(5,5,5),
-        Panel=Color3.fromRGB(15,15,15), Row=Color3.fromRGB(20,20,20), RowHover=Color3.fromRGB(30,30,30),
-        Accent=Color3.fromRGB(0, 120, 255), AccentLight=Color3.fromRGB(0, 160, 255),
-        Green=Color3.fromRGB(0, 200, 255), Red=Color3.fromRGB(237,150,189), Red2=Color3.fromRGB(220,104,162),
-        Text=Color3.fromRGB(255,255,255), Dim=Color3.fromRGB(200,200,200), Stroke=Color3.fromRGB(30,30,50),
+        Background=Color3.fromRGB(20,20,20), MainBackground=Color3.fromRGB(15,15,15),
+        Panel=Color3.fromRGB(28,25,28), Row=Color3.fromRGB(35,30,35), RowHover=Color3.fromRGB(48,38,48),
+        Accent=Color3.fromRGB(232,111,177), AccentLight=Color3.fromRGB(238,98,178),
+        Green=Color3.fromRGB(235,117,181), Red=Color3.fromRGB(237,150,189), Red2=Color3.fromRGB(220,104,162),
+        Text=Color3.fromRGB(255,255,255), Dim=Color3.fromRGB(200,200,200), Stroke=Color3.fromRGB(60,40,55),
         SoftButton=Color3.fromRGB(35,28,33), SoftButtonHover=Color3.fromRGB(45,35,42),
         SoftAccent=Color3.fromRGB(55,38,48), SoftAccentHover=Color3.fromRGB(65,45,58),
         ToggleOff=Color3.fromRGB(35,28,33), ToggleOff2=Color3.fromRGB(35,28,33),
@@ -303,7 +300,7 @@ Themes = {
     }
 }
 Theme = {}
-for k, v in pairs(Themes.Dark) do
+for k, v in pairs(Themes.Light) do
     Theme[k] = v
 end
 
@@ -488,7 +485,7 @@ function applyTheme(themeName)
     end
     
     pcall(function()
-        local sg = playerGui:FindFirstChild("AnwVcVqithFD")
+        local sg = playerGui:FindFirstChild("SXEHub_V3")
         if sg then updateInstanceColors(sg) end
         if _G.updateLogoImage then
             _G.updateLogoImage(themeName == "Dark")
@@ -496,10 +493,10 @@ function applyTheme(themeName)
     end)
     pcall(function()
         local ExploitGui = (gethui and gethui()) or game:GetService("CoreGui")
-        local sg = ExploitGui:FindFirstChild("XxtSrpmnGQqA")
+        local sg = ExploitGui:FindFirstChild("XiPriorityAlertTest")
         if sg then updateInstanceColors(sg) end
     end)
-    for _, name in ipairs({"SxNESbWqeZzT", "BxiHypYqhnJZ", "XkRkshGxlQZv"}) do
+    for _, name in ipairs({"SXE_RemoteSell", "SXE_StealProgressBar", "XiAdminPanel"}) do
         pcall(function()
             local otherSg = playerGui:FindFirstChild(name)
             if otherSg then updateInstanceColors(otherSg) end
@@ -524,7 +521,7 @@ function applyTheme(themeName)
     end
     
     pcall(function()
-        local sg = playerGui:FindFirstChild("AnwVcVqithFD")
+        local sg = playerGui:FindFirstChild("SXEHub_V3")
         if sg then forceWhiteText(sg) end
     end)
     
@@ -2756,7 +2753,7 @@ local function createProxAPRing()
     r.CastShadow = false
     r.Material = Enum.Material.Neon
     r.Transparency = 0.8
-    r.Color = Color3.fromRGB(0, 120, 255)
+    r.Color = Color3.fromRGB(232, 111, 177)
     local range = Config.ProximityRange or 15
     r.Size = Vector3.new(0.2, range*2, range*2)
     r.Parent = Workspace
@@ -3259,24 +3256,24 @@ function setStealMode(mode)
 end
 
 -- Create the Bottom Steal HUD matching 
-local hudGui = playerGui:FindFirstChild("YTSgtaHPMGAZ")
+local hudGui = playerGui:FindFirstChild("AutoStealCurrentTargetHUD")
 if hudGui then hudGui:Destroy() end
 hudGui = Instance.new("ScreenGui")
-hudGui.Name = "YTSgtaHPMGAZ"
+hudGui.Name = "AutoStealCurrentTargetHUD"
 hudGui.ResetOnSpawn = false
 hudGui.IgnoreGuiInset = true
 hudGui.DisplayOrder = 998
 hudGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-hudGui.Parent = ExploitGui
+hudGui.Parent = playerGui
 local STEALBAR = {
     PANEL = Color3.fromRGB(15, 15, 15),
     TEXT = Color3.fromRGB(255, 255, 255),
     STROKE = Color3.fromRGB(60, 40, 55),
-    GLOW = Color3.fromRGB(0, 120, 255),
+    GLOW = Color3.fromRGB(232, 111, 177),
     TRACK = Color3.fromRGB(55, 40, 50),
     TRACK2 = Color3.fromRGB(35, 30, 35),
-    FILL1 = Color3.fromRGB(0, 160, 255),
-    FILL2 = Color3.fromRGB(0, 120, 255),
+    FILL1 = Color3.fromRGB(238, 98, 178),
+    FILL2 = Color3.fromRGB(232, 111, 177),
 }
 
 local mobileScale = UIS.TouchEnabled and 0.6 or 1
@@ -3519,7 +3516,7 @@ local function ShowPriorityAlertImpl(brainrotName, genText, mutation, ownerUsern
         subText = "NORMAL"
     end
     
-    local existing = ExploitGui:FindFirstChild("XxtSrpmnGQqA")
+    local existing = ExploitGui:FindFirstChild("XiPriorityAlertTest")
     if existing then existing:Destroy() end
     
     if Config.PrioritySoundAlert and Config.PrioritySoundID and Config.PrioritySoundID ~= "" then
@@ -3538,7 +3535,7 @@ local function ShowPriorityAlertImpl(brainrotName, genText, mutation, ownerUsern
     
     local alertGui = Instance.new("ScreenGui")
     if _G.addLazyUI then _G.addLazyUI(alertGui, true, true) end
-    alertGui.Name = "XxtSrpmnGQqA"
+    alertGui.Name = "XiPriorityAlertTest"
     alertGui.ResetOnSpawn = false
     alertGui.DisplayOrder = 999
     alertGui.Parent = ExploitGui
@@ -5425,7 +5422,7 @@ function runAutoSnipe()
                 plat.Name = "XiTempPlatform"
                 plat.Size = Vector3.new(6, 1.5, 6)
                 plat.Position = Vector3.new(hrp.Position.X, hrp.Position.Y - 5.5, hrp.Position.Z)
-                plat.Color = Color3.fromRGB(0, 120, 255)
+                plat.Color = Color3.fromRGB(232, 111, 177)
                 plat.Material = Enum.Material.Neon
                 plat.Anchored = true
                 plat.CanCollide = false; pcall(makeOneWay, plat)
@@ -5521,7 +5518,7 @@ function runAutoSnipe()
             plat.Name = "XiTempPlatform"
             plat.Size = Vector3.new(6, 1.5, 6)
             plat.Position = airPos - Vector3.new(0, 3, 0)
-            plat.Color = Color3.fromRGB(0, 120, 255)
+            plat.Color = Color3.fromRGB(232, 111, 177)
             plat.Material = Enum.Material.Neon
             plat.Anchored = true
             plat.CanCollide = false; pcall(makeOneWay, plat)
@@ -5606,7 +5603,7 @@ function tpToBrainrot()
             plat.Name = "XiTempPlatform"
             plat.Size = Vector3.new(6, 1.5, 6)
             plat.Position = Vector3.new(targetPos.X, targetPos.Y - 11, targetPos.Z)
-            plat.Color = Color3.fromRGB(0, 120, 255)
+            plat.Color = Color3.fromRGB(232, 111, 177)
             plat.Material = Enum.Material.Neon
             plat.Anchored = true
             plat.CanCollide = false; pcall(makeOneWay, plat)
@@ -5667,8 +5664,8 @@ _G.tpToBrainrot = tpToBrainrot
 -- CLICK TO AP
 -- ============================================================
 local ctapHighlight=Instance.new("Highlight",CoreGui)
-ctapHighlight.FillColor=Color3.fromRGB(0, 120, 255); ctapHighlight.FillTransparency=0.3
-ctapHighlight.OutlineColor=Color3.fromRGB(0, 120, 255); ctapHighlight.OutlineTransparency=0
+ctapHighlight.FillColor=Color3.fromRGB(255,150,200); ctapHighlight.FillTransparency=0.3
+ctapHighlight.OutlineColor=Color3.fromRGB(255,150,200); ctapHighlight.OutlineTransparency=0
 ctapHighlight.Adornee=nil; ctapHighlight.DepthMode=Enum.HighlightDepthMode.AlwaysOnTop
 
 local function rayToCubeIntersect(rayOrigin,rayDirection,cubeCenter,cubeSize)
@@ -6215,13 +6212,13 @@ do
             hl.FillColor = Color3.fromRGB(255, 0, 0); hl.FillTransparency = 0.6
             hl.OutlineColor = Color3.fromRGB(255, 0, 0); hl.OutlineTransparency = 0
             hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-            hl.Parent = ExploitGui
+            hl.Parent = CoreGui
             e.hl = hl
         end
         if e.hl.Adornee ~= plr.Character then e.hl.Adornee = plr.Character end
         if not e.bb or not e.bb.Parent then
             if e.bb then pcall(function() e.bb:Destroy() end) end
-            e.bb = makeTag(); e.bb.Parent = ExploitGui
+            e.bb = makeTag(); e.bb.Parent = CoreGui
         end
         local head = plr.Character:FindFirstChild("Head") or plr.Character:FindFirstChild("HumanoidRootPart")
         if head and e.bb.Adornee ~= head then e.bb.Adornee = head end
@@ -7397,7 +7394,7 @@ local function buildRemoteSell()
         end; return nil
     end
 
-    remoteSellGui=Instance.new("ScreenGui"); remoteSellGui.Name="SxNESbWqeZzT"; remoteSellGui.ResetOnSpawn=false; remoteSellGui.Parent=playerGui
+    remoteSellGui=Instance.new("ScreenGui"); remoteSellGui.Name="SXE_RemoteSell"; remoteSellGui.ResetOnSpawn=false; remoteSellGui.Parent=playerGui
     local rsFrame=Instance.new("Frame", registerScreenGui(remoteSellGui)); rsFrame.Size=UDim2.new(0,190,0,240)
     rsFrame.Position=UDim2.new(0,350,1,-350); rsFrame.BackgroundColor3=Theme.MainBackground; rsFrame.BackgroundTransparency=0.06; rsFrame.BorderSizePixel=0
     Instance.new("UICorner",rsFrame).CornerRadius=UDim.new(0,12)
@@ -7632,7 +7629,7 @@ _G.ShowStealProgressBar = function(targetName, duration)
     end
     
     local sg = Instance.new("ScreenGui")
-    sg.Name = "BxiHypYqhnJZ"
+    sg.Name = "SXE_StealProgressBar"
     sg.ResetOnSpawn = false
     sg.Parent = ExploitGui
     stealProgressBarGui = sg
@@ -8472,8 +8469,8 @@ end -- END STEAL TARGET SCOPE
 -- ADMIN PANEL UI
 -- ============================================================
 LazyInit("Admin Panel UI", function() -- ADMIN PANEL UI SCOPE
-    pcall(function() local e=playerGui:FindFirstChild("XkRkshGxlQZv"); if e then e:Destroy() end end)
-    apGui=Instance.new("ScreenGui"); apGui.Name="XkRkshGxlQZv"; apGui.ResetOnSpawn=false; apGui.IgnoreGuiInset=true; apGui.DisplayOrder=9999998; apGui.ZIndexBehavior=Enum.ZIndexBehavior.Sibling; apGui.Parent=playerGui
+    pcall(function() local e=playerGui:FindFirstChild("XiAdminPanel"); if e then e:Destroy() end end)
+    apGui=Instance.new("ScreenGui"); apGui.Name="XiAdminPanel"; apGui.ResetOnSpawn=false; apGui.IgnoreGuiInset=true; apGui.DisplayOrder=9999998; apGui.ZIndexBehavior=Enum.ZIndexBehavior.Sibling; apGui.Parent=playerGui
     apGui.Enabled = (Config.AdminPanelUI == true)
     apOuter=Instance.new("Frame"); apOuter.Name="Frame"; apOuter.BackgroundTransparency=1; apOuter.BorderSizePixel=0; apOuter.Size=UDim2.fromOffset(480,0); apOuter.AutomaticSize=Enum.AutomaticSize.Y; apOuter.Position=UDim2.new(0.18,0,0.57,0); apOuter.ZIndex=10; apOuter.ClipsDescendants=true; apOuter.Parent=registerScreenGui(apGui)
     apBG=Instance.new("Frame"); apBG.BackgroundColor3=Theme.Background; apBG.BackgroundTransparency=0.50; apBG.BorderSizePixel=0; apBG.Position=UDim2.fromOffset(-3,-2); apBG.Size=UDim2.new(1,6,1,4); apBG.ZIndex=0; apBG.Parent=apOuter; corner(apBG,8)
@@ -11048,4 +11045,3 @@ do
         _started = true
     end)
 end
-end)
