@@ -272,31 +272,31 @@ local Config
 local saveConfig
 local loadConfig
 
--- THEME (SXE Pink)
+-- THEME (SXE Blue & Black)
 Themes = {
     Light = {
-        Background=Color3.fromRGB(255,255,255), MainBackground=Color3.fromRGB(255,252,255),
-        Panel=Color3.fromRGB(255,249,252), Row=Color3.fromRGB(252,245,249), RowHover=Color3.fromRGB(250,238,245),
-        Accent=Color3.fromRGB(232,111,177), AccentLight=Color3.fromRGB(238,98,178),
-        Green=Color3.fromRGB(235,117,181), Red=Color3.fromRGB(237,150,189), Red2=Color3.fromRGB(220,104,162),
-        Text=Color3.fromRGB(236,108,174), Dim=Color3.fromRGB(205,151,180), Stroke=Color3.fromRGB(248,188,219),
-        SoftButton=Color3.fromRGB(249,240,245), SoftButtonHover=Color3.fromRGB(246,232,240),
-        SoftAccent=Color3.fromRGB(244,223,233), SoftAccentHover=Color3.fromRGB(241,213,228),
-        ToggleOff=Color3.fromRGB(255,231,243), ToggleOff2=Color3.fromRGB(255,236,245),
-        InputBg=Color3.fromRGB(255,255,255), SliderBg=Color3.fromRGB(243,204,223),
-        BlacklistHover=Color3.fromRGB(255,220,225), BlacklistLeave=Color3.fromRGB(255,240,248),
+        Background=Color3.fromRGB(240,245,255), MainBackground=Color3.fromRGB(235,242,255),
+        Panel=Color3.fromRGB(230,238,255), Row=Color3.fromRGB(220,232,255), RowHover=Color3.fromRGB(200,220,255),
+        Accent=Color3.fromRGB(30,100,220), AccentLight=Color3.fromRGB(50,120,240),
+        Green=Color3.fromRGB(40,160,100), Red=Color3.fromRGB(200,60,60), Red2=Color3.fromRGB(180,40,40),
+        Text=Color3.fromRGB(20,60,180), Dim=Color3.fromRGB(80,110,180), Stroke=Color3.fromRGB(150,190,255),
+        SoftButton=Color3.fromRGB(220,232,255), SoftButtonHover=Color3.fromRGB(200,218,255),
+        SoftAccent=Color3.fromRGB(190,210,255), SoftAccentHover=Color3.fromRGB(170,200,255),
+        ToggleOff=Color3.fromRGB(210,225,255), ToggleOff2=Color3.fromRGB(215,228,255),
+        InputBg=Color3.fromRGB(240,245,255), SliderBg=Color3.fromRGB(160,195,255),
+        BlacklistHover=Color3.fromRGB(255,200,200), BlacklistLeave=Color3.fromRGB(220,232,255),
     },
     Dark = {
-        Background=Color3.fromRGB(20,20,20), MainBackground=Color3.fromRGB(15,15,15),
-        Panel=Color3.fromRGB(28,25,28), Row=Color3.fromRGB(35,30,35), RowHover=Color3.fromRGB(48,38,48),
-        Accent=Color3.fromRGB(232,111,177), AccentLight=Color3.fromRGB(238,98,178),
-        Green=Color3.fromRGB(235,117,181), Red=Color3.fromRGB(237,150,189), Red2=Color3.fromRGB(220,104,162),
-        Text=Color3.fromRGB(255,255,255), Dim=Color3.fromRGB(200,200,200), Stroke=Color3.fromRGB(60,40,55),
-        SoftButton=Color3.fromRGB(35,28,33), SoftButtonHover=Color3.fromRGB(45,35,42),
-        SoftAccent=Color3.fromRGB(55,38,48), SoftAccentHover=Color3.fromRGB(65,45,58),
-        ToggleOff=Color3.fromRGB(35,28,33), ToggleOff2=Color3.fromRGB(35,28,33),
-        InputBg=Color3.fromRGB(30,25,30), SliderBg=Color3.fromRGB(55,40,50),
-        BlacklistHover=Color3.fromRGB(80,35,45), BlacklistLeave=Color3.fromRGB(50,35,45),
+        Background=Color3.fromRGB(10,12,20), MainBackground=Color3.fromRGB(5,7,15),
+        Panel=Color3.fromRGB(18,22,38), Row=Color3.fromRGB(22,28,48), RowHover=Color3.fromRGB(30,40,70),
+        Accent=Color3.fromRGB(60,140,255), AccentLight=Color3.fromRGB(80,160,255),
+        Green=Color3.fromRGB(40,200,120), Red=Color3.fromRGB(220,70,70), Red2=Color3.fromRGB(190,50,50),
+        Text=Color3.fromRGB(255,255,255), Dim=Color3.fromRGB(160,185,230), Stroke=Color3.fromRGB(30,55,110),
+        SoftButton=Color3.fromRGB(18,28,55), SoftButtonHover=Color3.fromRGB(25,38,75),
+        SoftAccent=Color3.fromRGB(28,48,95), SoftAccentHover=Color3.fromRGB(35,58,115),
+        ToggleOff=Color3.fromRGB(18,28,55), ToggleOff2=Color3.fromRGB(18,28,55),
+        InputBg=Color3.fromRGB(12,18,38), SliderBg=Color3.fromRGB(35,65,130),
+        BlacklistHover=Color3.fromRGB(80,20,20), BlacklistLeave=Color3.fromRGB(25,35,70),
     }
 }
 Theme = {}
@@ -350,7 +350,7 @@ function applyTheme(themeName)
             elseif child:IsA("TextLabel") then
                 if child.Text == "Moh🔥" or child.Text == "|" or child.Text == "discord.gg/mohhub" then
                     child.TextColor3 = toTheme.AccentLight
-                elseif child.Text == "By:@SE67 and @SXLVATORE" then
+                elseif child.Text == "by moha alhrbe" then
                     child.TextColor3 = toTheme.Dim
                 end
             elseif child:IsA("Frame") then
@@ -5884,7 +5884,7 @@ do
     local BEAM_NAME    = "BestPetBeam"
     local ATT0_NAME    = "BestPetBeamAttach_Player"
     local ATT1_NAME    = "BestPetBeamAttach_Target"
-    local BEAM_COLOR   = Color3.fromRGB(255, 45, 190)   -- pink (line to best brainrot)
+    local BEAM_COLOR   = Color3.fromRGB(30, 120, 255)   -- blue (line to best brainrot)
 
     local bestBeam     = nil
     local bestAtt0     = nil
@@ -9459,7 +9459,7 @@ _G.updateLogoImage(Config and Config.DarkMode or false)
 local lg=Instance.new("TextLabel"); lg.Size=UDim2.new(0,150,0,26); lg.Position=UDim2.new(0,54,0,5); lg.BackgroundTransparency=1; lg.Text="Moh🔥"; lg.TextColor3=Theme.AccentLight; lg.Font=Enum.Font.GothamBlack; lg.TextSize=19; lg.TextXAlignment=Enum.TextXAlignment.Left; lg.Parent=bottomBar
 local dd=Instance.new("TextLabel"); dd.Size=UDim2.new(0,20,0,26); dd.Position=UDim2.new(0,210,0,5); dd.BackgroundTransparency=1; dd.Text="|"; dd.TextColor3=Theme.AccentLight; dd.Font=Enum.Font.GothamBlack; dd.TextSize=18; dd.Parent=bottomBar
 local dc=Instance.new("TextLabel"); dc.Size=UDim2.new(0,210,0,26); dc.Position=UDim2.new(0,230,0,5); dc.BackgroundTransparency=1; dc.Text="discord.gg/mohhub"; dc.TextColor3=Theme.AccentLight; dc.Font=Enum.Font.GothamBold; dc.TextSize=16; dc.TextXAlignment=Enum.TextXAlignment.Left; dc.Parent=bottomBar
-local sb=Instance.new("TextLabel"); sb.Size=UDim2.new(0,290,0,14); sb.Position=UDim2.new(0,55,0,30); sb.BackgroundTransparency=1; sb.Text="By:@SE67 and @SXLVATORE"; sb.TextColor3=Theme.Dim; sb.Font=Enum.Font.GothamSemibold; sb.TextSize=8; sb.TextXAlignment=Enum.TextXAlignment.Left; sb.Parent=bottomBar
+local sb=Instance.new("TextLabel"); sb.Size=UDim2.new(0,290,0,14); sb.Position=UDim2.new(0,55,0,30); sb.BackgroundTransparency=1; sb.Text="by moha alhrbe"; sb.TextColor3=Theme.Dim; sb.Font=Enum.Font.GothamSemibold; sb.TextSize=8; sb.TextXAlignment=Enum.TextXAlignment.Left; sb.Parent=bottomBar
 local rightDiv=Instance.new("Frame"); rightDiv.Size=UDim2.new(0,1,0,36); rightDiv.Position=UDim2.new(1,-138,0.5,-18); rightDiv.BackgroundColor3=Theme.Accent; rightDiv.BackgroundTransparency=0.35; rightDiv.BorderSizePixel=0; rightDiv.Parent=bottomBar
 fpsText=Instance.new("TextLabel"); fpsText.Size=UDim2.new(0,126,1,0); fpsText.Position=UDim2.new(1,-128,0,0); fpsText.BackgroundTransparency=1; fpsText.Text="FPS: --\nPING: --ms"; fpsText.TextColor3=Theme.Green; fpsText.Font=Enum.Font.GothamBold; fpsText.TextSize=10; fpsText.TextXAlignment=Enum.TextXAlignment.Left; fpsText.Parent=bottomBar
 if _G.addLazyUI then _G.addLazyUI(bottomBar, true) end
