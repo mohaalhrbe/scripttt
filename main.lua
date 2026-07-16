@@ -21,7 +21,7 @@ pcall(function() if setfpscap then setfpscap(0) end end)
 -- GUID is the first arg of the balloon payload. Defaults to a randomly-generated
 -- UUID so the payload is at least syntactically valid (an empty string was
 -- silently rejected by the server -- that's why the reset wasn't firing). If you
--- have a known-good GUID, set `_G.SXE_RESET_GUID` before the script runs.
+-- have a known-good GUID, set `_G.MOH_RESET_GUID` before the script runs.
 local function _newGUID()
     local hex = "0123456789abcdef"
     local t = {}
@@ -64,7 +64,7 @@ local function makeOneWay(plat)
     end)
 end
 
-GUID = GUID or _G.SXE_RESET_GUID or _newGUID()
+GUID = GUID or _G.MOH_RESET_GUID or _newGUID()
 resetRemote = nil
 instaResetCooldown = false
 
@@ -95,16 +95,16 @@ if not LPH_NO_VIRTUALIZE then LPH_NO_VIRTUALIZE = function(fn) return fn end end
 -- =====================================================================
 -- LAZY-LOAD QUEUE
 -- =====================================================================
-_G.__SXELazyQ = _G.__SXELazyQ or {}
+_G.__MOHLazyQ = _G.__MOHLazyQ or {}
 local function LazyInit(name, fn)
-    table.insert(_G.__SXELazyQ, { name = name, fn = LPH_NO_VIRTUALIZE(fn) })
+    table.insert(_G.__MOHLazyQ, { name = name, fn = LPH_NO_VIRTUALIZE(fn) })
 end
 task.defer(LPH_NO_VIRTUALIZE(function()
     while true do
-        if #_G.__SXELazyQ > 0 then
-            local item = table.remove(_G.__SXELazyQ, 1)
+        if #_G.__MOHLazyQ > 0 then
+            local item = table.remove(_G.__MOHLazyQ, 1)
             local ok, err = pcall(item.fn)
-            if not ok then warn("[SXE Lazy]", item.name, err) end
+            if not ok then warn("[MOH Lazy]", item.name, err) end
             task.wait(0.08)
         else
             task.wait(0.5)
@@ -113,7 +113,7 @@ task.defer(LPH_NO_VIRTUALIZE(function()
 end))
 
 -- Persistent panel visibility store that survives script re-executes within the same Roblox session
-_G._SXEPanelVis = _G._SXEPanelVis or {}
+_G._MOHPanelVis = _G._MOHPanelVis or {}
 
 _G.lazyUIs = {}
 _G.addLazyUI = function(element, targetVis, isScreenGui, panelName)
@@ -140,7 +140,7 @@ task.delay(4.0, function()
             local vis
             if item.panelName then
                 -- Priority: _G store (survives re-exec) > Config.Visibilities > default true
-                local fromG = _G._SXEPanelVis[item.panelName]
+                local fromG = _G._MOHPanelVis[item.panelName]
                 if fromG ~= nil then
                     vis = fromG
                 elseif Config and Config.Visibilities then
@@ -181,7 +181,7 @@ local function updateAllGuisScale(newScale)
     for sg, master in pairs(scaledGuis) do
         pcall(function()
             if sg and sg.Parent and master and master.Parent then
-                local scaleObj = master:FindFirstChild("SXE_GlobalScale")
+                local scaleObj = master:FindFirstChild("MOH_GlobalScale")
                 if scaleObj then
                     scaleObj.Scale = newScale
                 end
@@ -192,22 +192,22 @@ local function updateAllGuisScale(newScale)
 end
 
 local function registerScreenGui(sg)
-    local master = sg:FindFirstChild("SXE_MasterFrame")
+    local master = sg:FindFirstChild("MOH_MasterFrame")
     if not master then
         master = Instance.new("Frame")
-        master.Name = "SXE_MasterFrame"
+        master.Name = "MOH_MasterFrame"
         master.BackgroundTransparency = 1
         master.BorderSizePixel = 0
         master.Parent = sg
         
         local scaleObj = Instance.new("UIScale")
-        scaleObj.Name = "SXE_GlobalScale"
+        scaleObj.Name = "MOH_GlobalScale"
         scaleObj.Parent = master
     end
     scaledGuis[sg] = master
     
     pcall(function()
-        local scaleObj = master:FindFirstChild("SXE_GlobalScale")
+        local scaleObj = master:FindFirstChild("MOH_GlobalScale")
         if scaleObj then
             scaleObj.Scale = GlobalUIScaleVal
         end
@@ -246,8 +246,8 @@ end
 Workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(setupCameraListener)
 task.spawn(setupCameraListener)
 
-local old = playerGui:FindFirstChild("SXEHub_V3"); if old then old:Destroy() end
-local gui_sg = Instance.new("ScreenGui"); gui_sg.Name = "SXEHub_V3"; gui_sg.ResetOnSpawn = false; gui_sg.IgnoreGuiInset = true; gui_sg.DisplayOrder = 9999999; gui_sg.Parent = playerGui
+local old = playerGui:FindFirstChild("MohHub_V3"); if old then old:Destroy() end
+local gui_sg = Instance.new("ScreenGui"); gui_sg.Name = "MohHub_V3"; gui_sg.ResetOnSpawn = false; gui_sg.IgnoreGuiInset = true; gui_sg.DisplayOrder = 9999999; gui_sg.Parent = playerGui
 local gui = registerScreenGui(gui_sg)
 
 -- SHARED TOGGLE STATE
@@ -272,7 +272,7 @@ local Config
 local saveConfig
 local loadConfig
 
--- THEME (SXE Blue & Black)
+-- THEME (MOH Blue & Black)
 Themes = {
     Light = {
         Background=Color3.fromRGB(240,245,255), MainBackground=Color3.fromRGB(235,242,255),
@@ -485,18 +485,15 @@ function applyTheme(themeName)
     end
     
     pcall(function()
-        local sg = playerGui:FindFirstChild("SXEHub_V3")
+        local sg = playerGui:FindFirstChild("MohHub_V3")
         if sg then updateInstanceColors(sg) end
-        if _G.updateLogoImage then
-            _G.updateLogoImage(themeName == "Dark")
-        end
     end)
     pcall(function()
         local ExploitGui = (gethui and gethui()) or game:GetService("CoreGui")
         local sg = ExploitGui:FindFirstChild("XiPriorityAlertTest")
         if sg then updateInstanceColors(sg) end
     end)
-    for _, name in ipairs({"SXE_RemoteSell", "SXE_StealProgressBar", "XiAdminPanel"}) do
+    for _, name in ipairs({"MOH_RemoteSell", "MOH_StealProgressBar", "XiAdminPanel"}) do
         pcall(function()
             local otherSg = playerGui:FindFirstChild(name)
             if otherSg then updateInstanceColors(otherSg) end
@@ -521,7 +518,7 @@ function applyTheme(themeName)
     end
     
     pcall(function()
-        local sg = playerGui:FindFirstChild("SXEHub_V3")
+        local sg = playerGui:FindFirstChild("MohHub_V3")
         if sg then forceWhiteText(sg) end
     end)
     
@@ -686,8 +683,8 @@ actionConfig = {
 }
 
 -- CONFIG (merged)
-local CONFIG_FILE = "sxe_hub_v3_config.json"
-local PS_CODE_FILE = "sxe_hub_pscode.txt"
+local CONFIG_FILE = "moh_hub_v3_config.json"
+local PS_CODE_FILE = "moh_hub_pscode.txt"
 PrivateServerCode = ""
 
 local function loadPSCode()
@@ -1830,12 +1827,12 @@ end
 
 -- Native Esc -> Reset button: route it through the same working reset (remote spam)
 -- instead of the game's default, so the menu reset also works instantly.
-local _sxeResetBindable = Instance.new("BindableEvent")
-_sxeResetBindable.Event:Connect(function() pcall(instantReset) end)
+local _mohResetBindable = Instance.new("BindableEvent")
+_mohResetBindable.Event:Connect(function() pcall(instantReset) end)
 task.spawn(function()
     for _ = 1, 12 do
         local ok = pcall(function()
-            game:GetService("StarterGui"):SetCore("ResetButtonCallback", _sxeResetBindable)
+            game:GetService("StarterGui"):SetCore("ResetButtonCallback", _mohResetBindable)
         end)
         if ok then break end
         task.wait(1)
@@ -3251,8 +3248,8 @@ function setStealMode(mode)
     setToggle("Steal Highest", stealHighestEnabled)
     setToggle("Steal Priority", stealPriorityEnabled)
     setToggle("Steal Nearest", stealNearestEnabled)
-    -- Bridge to SXE Clone-TP engine
-    if _G.SXEStealMode then pcall(_G.SXEStealMode, mode) end
+    -- Bridge to MOH Clone-TP engine
+    if _G.MOHStealMode then pcall(_G.MOHStealMode, mode) end
 end
 
 -- Create the Bottom Steal HUD matching 
@@ -3459,7 +3456,7 @@ RunService.RenderStepped:Connect(function()
         return
     end
 
-    local status = _G.SXE_StealStatus or {}
+    local status = _G.MOH_StealStatus or {}
     if status.active then
         local p = math.clamp((tick() - (status.start or 0)) / (status.duration or 1.3), 0, 1)
         hudProgressFill.Size = UDim2.new(p, 0, 1, 0)
@@ -3484,7 +3481,7 @@ end
 
 
 -- ============================================================
--- PRIORITY ALERT (SXE Styled 3D Viewer with Sorting Queue)
+-- PRIORITY ALERT (MOH Styled 3D Viewer with Sorting Queue)
 -- ============================================================
 local function ShowPriorityAlertImpl(brainrotName, genText, mutation, ownerUsername)
     local normalizedMutation = mutation and mutation:gsub("%s+", ""):lower() or ""
@@ -4869,7 +4866,7 @@ local MAX_CLIMB = 60
 
 local function velMoveThrough(hrp, waypoints, speedOverride, allowJump, quickStart)
     if not hrp or not hrp.Parent or #waypoints == 0 then return end
-    local _runSpeed = speedOverride or Config.TpSettings.GrabbleTPSpeed or (_G.SXECarpetSpeed or CARPET_SPEED or 230)
+    local _runSpeed = speedOverride or Config.TpSettings.GrabbleTPSpeed or (_G.MOHCarpetSpeed or CARPET_SPEED or 230)
     vizPath(hrp.Position, waypoints)
     local wpIdx = 1
     local done = false
@@ -5206,7 +5203,7 @@ function runAutoSnipe()
     end
     if Config.TpSettings and Config.TpSettings.GrabbleTP then
         _G._isTpMoving = true
-        local fn = _G.SXEStartSideTP or doGrabbleVelocityTP
+        local fn = _G.MOHStartSideTP or doGrabbleVelocityTP
         local okGrab, errGrab = pcall(fn)
         _G._isTpMoving = false
         if not okGrab then
@@ -5229,7 +5226,7 @@ function runAutoSnipe()
     end
     local lastFpsCap = pcall(getfpscap) and getfpscap() or 60
     pcall(setfpscap, 200)
-    -- (Old Grabble TP branch removed - now handled by SXE Clone-TP router above.)
+    -- (Old Grabble TP branch removed - now handled by MOH Clone-TP router above.)
     _G._isTpMoving = true
     local ok, err = pcall(function()
         local targetPart = findAdorneeGlobal(targetPetData)
@@ -7394,7 +7391,7 @@ local function buildRemoteSell()
         end; return nil
     end
 
-    remoteSellGui=Instance.new("ScreenGui"); remoteSellGui.Name="SXE_RemoteSell"; remoteSellGui.ResetOnSpawn=false; remoteSellGui.Parent=playerGui
+    remoteSellGui=Instance.new("ScreenGui"); remoteSellGui.Name="MOH_RemoteSell"; remoteSellGui.ResetOnSpawn=false; remoteSellGui.Parent=playerGui
     local rsFrame=Instance.new("Frame", registerScreenGui(remoteSellGui)); rsFrame.Size=UDim2.new(0,190,0,240)
     rsFrame.Position=UDim2.new(0,350,1,-350); rsFrame.BackgroundColor3=Theme.MainBackground; rsFrame.BackgroundTransparency=0.06; rsFrame.BorderSizePixel=0
     Instance.new("UICorner",rsFrame).CornerRadius=UDim.new(0,12)
@@ -7629,7 +7626,7 @@ _G.ShowStealProgressBar = function(targetName, duration)
     end
     
     local sg = Instance.new("ScreenGui")
-    sg.Name = "SXE_StealProgressBar"
+    sg.Name = "MOH_StealProgressBar"
     sg.ResetOnSpawn = false
     sg.Parent = ExploitGui
     stealProgressBarGui = sg
@@ -7743,7 +7740,7 @@ tw = function(o,p,t) TweenService:Create(o,TweenInfo.new(t or 0.14,Enum.EasingSt
 addOutline = function(f) local o=Instance.new("UIStroke"); o.Color=Theme.AccentLight; o.Thickness=1.25; o.Transparency=0.08; o.ApplyStrokeMode=Enum.ApplyStrokeMode.Border; o.Parent=f; return o end
 function clearBody(body) for _,c in ipairs(body:GetChildren()) do if not c:IsA("UIListLayout") and not c:IsA("UIPadding") then c:Destroy() end end end
 
-function openAnim(f) if not f then return end; local us=f:FindFirstChild("SXEScale") or Instance.new("UIScale"); us.Name="SXEScale"; us.Parent=f
+function openAnim(f) if not f then return end; local us=f:FindFirstChild("MOHScale") or Instance.new("UIScale"); us.Name="MOHScale"; us.Parent=f
     local tgt=f.Position; f.Visible=true; us.Scale=0.92; f.Position=UDim2.new(tgt.X.Scale,tgt.X.Offset,tgt.Y.Scale,tgt.Y.Offset+18); tw(us,{Scale=1},0.20); tw(f,{Position=tgt},0.20) end
 function closeAnim(f) if not f then return end; f.Visible = false end
 
@@ -8045,8 +8042,8 @@ local immediatePanels = {
 
 for name, panel in pairs(panels) do
     if not string.match(name, "Body$") then
-        -- _G._SXEPanelVis survives re-executes; override Config if it has a value
-        local fromG = _G._SXEPanelVis[name]
+        -- _G._MOHPanelVis survives re-executes; override Config if it has a value
+        local fromG = _G._MOHPanelVis[name]
         local targetVis
         if fromG ~= nil then
             targetVis = fromG
@@ -8107,7 +8104,7 @@ function rebuildTpSpeedSettings()
     clearBody(tpSpeedSettingsBody)
     makeMainSliderWithInput(tpSpeedSettingsBody, "Fly TP Speed", 50, 300, Config.TpSettings.FlyTPSpeed or 160, function(v) Config.TpSettings.FlyTPSpeed=v; saveConfig() end)
     makeMainSliderWithInput(tpSpeedSettingsBody, "100 Studs Base Speed", 20, 250, Config.TpSettings.FlyTPCloseSpeed or 75, function(v) Config.TpSettings.FlyTPCloseSpeed=v; saveConfig() end)
-    makeMainSliderWithInput(tpSpeedSettingsBody, "Grabble TP Speed", 50, 600, Config.TpSettings.GrabbleTPSpeed or 230, function(v) Config.TpSettings.GrabbleTPSpeed=v; saveConfig(); if _G.SXESetCarpetSpeed then pcall(_G.SXESetCarpetSpeed, v) end end)
+    makeMainSliderWithInput(tpSpeedSettingsBody, "Grabble TP Speed", 50, 600, Config.TpSettings.GrabbleTPSpeed or 230, function(v) Config.TpSettings.GrabbleTPSpeed=v; saveConfig(); if _G.MOHSetCarpetSpeed then pcall(_G.MOHSetCarpetSpeed, v) end end)
     makeMainSliderWithInput(tpSpeedSettingsBody, "Walk To Brainrot Speed", 50, 300, Config.TpSettings.WalkTPSpeed or 190, function(v) Config.TpSettings.WalkTPSpeed=v; saveConfig() end)
     makeMainSliderWithInput(tpSpeedSettingsBody, "Clone Delay", 0.05, 2.0, Config.TpSettings.CloneDelayVal or 0.1, function(v) Config.TpSettings.CloneDelayVal=v; saveConfig() end, "s")
     makeQuickButton(tpSpeedSettingsBody, "Close", function() closeAnim(tpSpeedSettingsPanel) end, Theme.SoftAccentHover)
@@ -8287,15 +8284,15 @@ end) -- END COOLDOWN PANEL SCOPE (LazyInit)
 -- STEAL PANEL
 makeSyncStateRow(panels["StealBody"],"Auto Steal:","Auto Steal",function(on)
     autoStealEnabled=on; Config.AutoStealEnabled=on; saveConfig()
-    -- SXE Clone-TP engine owns the auto-steal loop unconditionally.
-    if _G.SXEAutoSteal then pcall(_G.SXEAutoSteal, on) end
+    -- MOH Clone-TP engine owns the auto-steal loop unconditionally.
+    if _G.MOHAutoSteal then pcall(_G.MOHAutoSteal, on) end
 end)
 makeSyncStateRow(panels["StealBody"],"Steal Highest:","Steal Highest",function(on) if on then setStealMode("Highest") end end)
 makeSyncStateRow(panels["StealBody"],"Steal Priority:","Steal Priority",function(on) if on then setStealMode("Priority") end end)
 makeSyncStateRow(panels["StealBody"],"Steal Nearest:","Steal Nearest",function(on) if on then setStealMode("Nearest") end end)
 makeSyncStateRow(panels["StealBody"],"Auto Buy:","Auto Buy",function(on)
     if toggleAutoBuy then toggleAutoBuy(on)
-    else warn("[SXE] Auto Buy not ready yet -- try again in a sec") end
+    else warn("[MOH] Auto Buy not ready yet -- try again in a sec") end
 end)
 makeSyncStateRow(panels["StealBody"],"Auto Kick:","Auto Kick",function(on) Config.AutoKickOnSteal=on; saveConfig() end)
 
@@ -8439,8 +8436,8 @@ function refreshTargetPanel()
                 task.spawn(function()
                     local pr = PromptMemoryCache[pet.uid] or findProximityPromptForAnimal(pet.animalData)
                     if pr then
-                        if _G.SXE_ExecuteManualSteal then
-                            pcall(_G.SXE_ExecuteManualSteal, pr)
+                        if _G.MOH_ExecuteManualSteal then
+                            pcall(_G.MOH_ExecuteManualSteal, pr)
                         end
                     end
                 end)
@@ -8968,9 +8965,9 @@ function loadTab(tabName)
                 if BoundToggles["Fly TP"] then BoundToggles["Fly TP"](false, false) end
             end
             saveConfig()
-            -- Grabble TP IS the SXE Clone-TP engine. Sync auto-steal loop state.
-            if _G.SXEAutoSteal then
-                pcall(_G.SXEAutoSteal, on and (Config.AutoStealEnabled or false))
+            -- Grabble TP IS the MOH Clone-TP engine. Sync auto-steal loop state.
+            if _G.MOHAutoSteal then
+                pcall(_G.MOHAutoSteal, on and (Config.AutoStealEnabled or false))
             end
         end)
         makeMainToggle(mainBody,"Carpet to Brainrot",Config.TpSettings.BrainrotCarpet,function(on) Config.TpSettings.BrainrotCarpet=on; saveConfig() end)
@@ -9443,26 +9440,14 @@ for tabName,btn in pairs(tabButtons) do btn.MouseButton1Click:Connect(function()
 
 -- BOTTOM BAR
 bottomBar=Instance.new("Frame"); bottomBar.Size=UDim2.new(0,575,0,50); bottomBar.Position=UDim2.new(0.5,-287,1,-125); bottomBar.BackgroundColor3=Theme.Background; bottomBar.BackgroundTransparency=0.02; bottomBar.BorderSizePixel=0; bottomBar.Parent=gui; corner(bottomBar,12); addOutline(bottomBar)
-local iw=Instance.new("Frame"); iw.Size=UDim2.new(0,34,0,34); iw.Position=UDim2.new(0,12,0.5,-17); iw.BackgroundColor3=Theme.SoftAccent; iw.BorderSizePixel=0; iw.Parent=bottomBar; corner(iw,8)
-local ic=Instance.new("ImageLabel"); ic.Size=UDim2.new(1,0,1,0); ic.BackgroundTransparency=1; ic.ScaleType=Enum.ScaleType.Fit; ic.Parent=iw; corner(ic,8)
-
-_G.updateLogoImage = function(isDark)
-    if isDark then
-        ic.Image = "rbxthumb://type=Asset&id=98944824494349&w=150&h=150"
-    else
-        ic.Image = "rbxthumb://type=Asset&id=110857950376835&w=150&h=150"
-    end
-    ic.ImageColor3 = Color3.fromRGB(255, 255, 255)
-    iw.BackgroundColor3 = Theme.SoftAccent
-end
-_G.updateLogoImage(Config and Config.DarkMode or false)
-local lg=Instance.new("TextLabel"); lg.Size=UDim2.new(0,150,0,26); lg.Position=UDim2.new(0,54,0,5); lg.BackgroundTransparency=1; lg.Text="Moh🔥"; lg.TextColor3=Theme.AccentLight; lg.Font=Enum.Font.GothamBlack; lg.TextSize=19; lg.TextXAlignment=Enum.TextXAlignment.Left; lg.Parent=bottomBar
-local dd=Instance.new("TextLabel"); dd.Size=UDim2.new(0,20,0,26); dd.Position=UDim2.new(0,210,0,5); dd.BackgroundTransparency=1; dd.Text="|"; dd.TextColor3=Theme.AccentLight; dd.Font=Enum.Font.GothamBlack; dd.TextSize=18; dd.Parent=bottomBar
-local dc=Instance.new("TextLabel"); dc.Size=UDim2.new(0,210,0,26); dc.Position=UDim2.new(0,230,0,5); dc.BackgroundTransparency=1; dc.Text="discord.gg/mohhub"; dc.TextColor3=Theme.AccentLight; dc.Font=Enum.Font.GothamBold; dc.TextSize=16; dc.TextXAlignment=Enum.TextXAlignment.Left; dc.Parent=bottomBar
-local sb=Instance.new("TextLabel"); sb.Size=UDim2.new(0,290,0,14); sb.Position=UDim2.new(0,55,0,30); sb.BackgroundTransparency=1; sb.Text="by moha alhrbe"; sb.TextColor3=Theme.Dim; sb.Font=Enum.Font.GothamSemibold; sb.TextSize=8; sb.TextXAlignment=Enum.TextXAlignment.Left; sb.Parent=bottomBar
+local lg=Instance.new("TextLabel"); lg.Size=UDim2.new(0,150,0,26); lg.Position=UDim2.new(0,12,0,5); lg.BackgroundTransparency=1; lg.Text="Moh🔥"; lg.TextColor3=Theme.AccentLight; lg.Font=Enum.Font.GothamBlack; lg.TextSize=19; lg.TextXAlignment=Enum.TextXAlignment.Left; lg.Parent=bottomBar
+local dd=Instance.new("TextLabel"); dd.Size=UDim2.new(0,20,0,26); dd.Position=UDim2.new(0,170,0,5); dd.BackgroundTransparency=1; dd.Text="|"; dd.TextColor3=Theme.AccentLight; dd.Font=Enum.Font.GothamBlack; dd.TextSize=18; dd.Parent=bottomBar
+local dc=Instance.new("TextLabel"); dc.Size=UDim2.new(0,210,0,26); dc.Position=UDim2.new(0,190,0,5); dc.BackgroundTransparency=1; dc.Text="discord.gg/mohhub"; dc.TextColor3=Theme.AccentLight; dc.Font=Enum.Font.GothamBold; dc.TextSize=16; dc.TextXAlignment=Enum.TextXAlignment.Left; dc.Parent=bottomBar
+local sb=Instance.new("TextLabel"); sb.Size=UDim2.new(0,290,0,14); sb.Position=UDim2.new(0,13,0,30); sb.BackgroundTransparency=1; sb.Text="by moha alhrbe"; sb.TextColor3=Theme.Dim; sb.Font=Enum.Font.GothamSemibold; sb.TextSize=8; sb.TextXAlignment=Enum.TextXAlignment.Left; sb.Parent=bottomBar
 local rightDiv=Instance.new("Frame"); rightDiv.Size=UDim2.new(0,1,0,36); rightDiv.Position=UDim2.new(1,-138,0.5,-18); rightDiv.BackgroundColor3=Theme.Accent; rightDiv.BackgroundTransparency=0.35; rightDiv.BorderSizePixel=0; rightDiv.Parent=bottomBar
 fpsText=Instance.new("TextLabel"); fpsText.Size=UDim2.new(0,126,1,0); fpsText.Position=UDim2.new(1,-128,0,0); fpsText.BackgroundTransparency=1; fpsText.Text="FPS: --\nPING: --ms"; fpsText.TextColor3=Theme.Green; fpsText.Font=Enum.Font.GothamBold; fpsText.TextSize=10; fpsText.TextXAlignment=Enum.TextXAlignment.Left; fpsText.Parent=bottomBar
 if _G.addLazyUI then _G.addLazyUI(bottomBar, true) end
+
 
 task.defer(function()
     loadTab("Auto TP")
@@ -9631,7 +9616,7 @@ RunService.Stepped:Connect(function()
         end
     end
 end)
-local SXE_AC = {} 
+local MOH_AC = {} 
 end 
    end
 
@@ -9642,7 +9627,7 @@ end)
 
 
 -- ============================================================
--- SXE AUTO-STEAL + CLONE-TP ENGINE (integrated) -- xentp.lua 1:1 port
+-- MOH AUTO-STEAL + CLONE-TP ENGINE (integrated) -- xentp.lua 1:1 port
 -- Speed: Config.TpSettings.GrabbleTPSpeed | Clone Delay: Config.TpSettings.CloneDelayVal
 -- ============================================================
 do
@@ -9694,15 +9679,15 @@ do
         if not char:FindFirstChild("Grapple Hook") then return end
         pcall(function() NetModule:RemoteEvent("UseItem"):FireServer(2) end)
     end
-    _G.SXEFireGrapple = fireGrapple
+    _G.MOHFireGrapple = fireGrapple
 
     -- ===== Speed config (live-settable) =====
-    local SXESpeed = { CARPET = 400, INBASE = 250 }
-    _G.SXESetCarpetSpeed = function(v) v = tonumber(v); if v and v > 0 then SXESpeed.CARPET = v end end
-    _G.SXESetInbaseSpeed = function(v) v = tonumber(v); if v and v > 0 then SXESpeed.INBASE = v end end
-    _G.SXEGetCarpetSpeed = function() return SXESpeed.CARPET end
+    local MOHSpeed = { CARPET = 400, INBASE = 250 }
+    _G.MOHSetCarpetSpeed = function(v) v = tonumber(v); if v and v > 0 then MOHSpeed.CARPET = v end end
+    _G.MOHSetInbaseSpeed = function(v) v = tonumber(v); if v and v > 0 then MOHSpeed.INBASE = v end end
+    _G.MOHGetCarpetSpeed = function() return MOHSpeed.CARPET end
     if Config and Config.TpSettings then
-        if tonumber(Config.TpSettings.GrabbleTPSpeed) then SXESpeed.CARPET = tonumber(Config.TpSettings.GrabbleTPSpeed) end
+        if tonumber(Config.TpSettings.GrabbleTPSpeed) then MOHSpeed.CARPET = tonumber(Config.TpSettings.GrabbleTPSpeed) end
     end
 
     -- ===== Tools =====
@@ -9951,7 +9936,7 @@ do
 
     -- ===== Fusing check =====
     local _BLOCKING_MACHINE_TYPES = { Fuse=true, Duel=true, Trade=true, Crafting=true }
-    local function _SXEIsFusing(animalData)
+    local function _MOHIsFusing(animalData)
         if type(animalData) ~= "table" then return false end
         local m = animalData.Machine
         if type(m) ~= "table" then return false end
@@ -9977,7 +9962,7 @@ do
                 if not animalName then continue end
                 local animalInfo = AnimalsData and AnimalsData[animalName]
                 if not animalInfo then continue end
-                if _SXEIsFusing(animalData) then continue end
+                if _MOHIsFusing(animalData) then continue end
                 local mutation = animalData.Mutation or "None"
                 local genValue = 0
                 pcall(function()
@@ -10119,7 +10104,7 @@ do
 
     local function velMoveThrough(hrp, waypoints, speedOverride, allowJump, quickStart)
         if not hrp or not hrp.Parent or #waypoints == 0 then return end
-        local _runSpeed = speedOverride or SXESpeed.CARPET
+        local _runSpeed = speedOverride or MOHSpeed.CARPET
         vizPath(hrp.Position, waypoints)
         local wpIdx = 1
         local done = false
@@ -10456,7 +10441,7 @@ do
         else
             local _route = computeRoute(hrp.Position, _to, nil)
             if not _route or #_route == 0 then _route = { _to } end
-            velMoveThrough(hrp, _route, (Config and Config.TpSettings and (tonumber(Config.TpSettings.WalkTPSpeed) or tonumber(Config.TpSettings.GrabbleTPSpeed))) or SXESpeed.INBASE, true, true)
+            velMoveThrough(hrp, _route, (Config and Config.TpSettings and (tonumber(Config.TpSettings.WalkTPSpeed) or tonumber(Config.TpSettings.GrabbleTPSpeed))) or MOHSpeed.INBASE, true, true)
         end
         if hrp and hrp.Parent then
             hrp.AssemblyLinearVelocity = Vector3.zero
@@ -10466,7 +10451,7 @@ do
             local _platPos = (hrp and hrp.Parent and hrp.Position) or _to
             local _feetY = _platPos.Y - 3
             local _plat = Instance.new("Part")
-            _plat.Name = "SXETempPlatform"; _plat.Size = Vector3.new(8, 1, 8)
+            _plat.Name = "MOHTempPlatform"; _plat.Size = Vector3.new(8, 1, 8)
             _plat.Position = Vector3.new(petPos.X, _feetY - 1.5, petPos.Z)
             _plat.Anchored = true; _plat.CanCollide = false; pcall(makeOneWay, _plat); _plat.Transparency = 1
             _plat.Material = Enum.Material.SmoothPlastic; _plat.Parent = workspace
@@ -10513,10 +10498,10 @@ do
         data.ready = false
         _stealHoldStart = tick()
         _stealHoldActive = true
-        _G.SXE_StealStatus = _G.SXE_StealStatus or {}
-        _G.SXE_StealStatus.active = true
-        _G.SXE_StealStatus.start = _stealHoldStart
-        _G.SXE_StealStatus.duration = STEAL_HOLD_DURATION
+        _G.MOH_StealStatus = _G.MOH_StealStatus or {}
+        _G.MOH_StealStatus.active = true
+        _G.MOH_StealStatus.start = _stealHoldStart
+        _G.MOH_StealStatus.duration = STEAL_HOLD_DURATION
 
         task.spawn(function()
             for _, fn in ipairs(data.holdCallbacks) do task.spawn(fn) end
@@ -10542,7 +10527,7 @@ do
             end
             for _, fn in ipairs(data.holdEndCallbacks) do task.spawn(fn) end
             _stealHoldActive = false
-            if _G.SXE_StealStatus then _G.SXE_StealStatus.active = false end
+            if _G.MOH_StealStatus then _G.MOH_StealStatus.active = false end
             task.wait(0.05)
             data.ready = true
         end)
@@ -10642,20 +10627,20 @@ do
         if not pet then return end
         _stealTarget = pet; _stealArmedAt = os.clock()
         _stealTarget2 = pet
-        _G.SXE_StealStatus = _G.SXE_StealStatus or {}
-        _G.SXE_StealStatus.target = pet
+        _G.MOH_StealStatus = _G.MOH_StealStatus or {}
+        _G.MOH_StealStatus.target = pet
     end
     local function disarmSteal()
         _stealTarget = nil
-        _G.SXE_StealStatus = _G.SXE_StealStatus or {}
-        _G.SXE_StealStatus.target = nil
-        _G.SXE_StealStatus.active = false
+        _G.MOH_StealStatus = _G.MOH_StealStatus or {}
+        _G.MOH_StealStatus.target = nil
+        _G.MOH_StealStatus.active = false
     end
-    _G.SXEArmSteal = armSteal
-    _G.SXEDisarmSteal = disarmSteal
+    _G.MOHArmSteal = armSteal
+    _G.MOHDisarmSteal = disarmSteal
 
     local AUTO_STEAL = (Config and Config.AutoStealEnabled) and true or false
-    _G.SXEAutoSteal = function(on) AUTO_STEAL = on ~= false end
+    _G.MOHAutoSteal = function(on) AUTO_STEAL = on ~= false end
 
     local _stealLastScan = 0
     local _autoLastScan = 0
@@ -10677,7 +10662,7 @@ do
                 local ok, pets = pcall(scanAllPets)
                 if ok and pets then
                     local best
-                    -- Manual selection from SXEHub
+                    -- Manual selection from MohHub
                     if manuallySelectedUID then
                         for _, pet in ipairs(pets) do
                             if not pet.conveyor and pet.plot and pet.slot then
@@ -10776,7 +10761,7 @@ do
         end
         if #allPets == 0 then isTeleporting = false; return end
 
-        -- Respect SXEHub manual selection, then fall back to priority/mode
+        -- Respect MohHub manual selection, then fall back to priority/mode
         local pet
         if manuallySelectedUID then
             for _, p in ipairs(allPets) do
@@ -10964,7 +10949,7 @@ do
         local _clonePos = (_ahrp and _ahrp.Parent and _ahrp.Position) or destPos
 
         local _clonePlat = Instance.new("Part")
-        _clonePlat.Name = "SXEClonePlatform"
+        _clonePlat.Name = "MOHClonePlatform"
         _clonePlat.Size = Vector3.new(12, 1, 12)
         _clonePlat.Position = Vector3.new(_clonePos.X, _clonePos.Y - 3, _clonePos.Z)
         _clonePlat.Anchored = true; _clonePlat.CanCollide = false; pcall(makeOneWay, _clonePlat); _clonePlat.Transparency = 1
@@ -11016,9 +11001,9 @@ do
     end
 
     doGrabbleVelocityTP = doVelocityTP
-    _G.SXEStartSideTP = doVelocityTP
+    _G.MOHStartSideTP = doVelocityTP
 
-    _G.SXE_ExecuteManualTP = function()
+    _G.MOH_ExecuteManualTP = function()
         task.spawn(function() pcall(doVelocityTP) end)
     end
 
