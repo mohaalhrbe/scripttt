@@ -289,7 +289,7 @@ Themes = {
     Dark = {
         Background=Color3.fromRGB(5,5,5), MainBackground=Color3.fromRGB(0,0,0),
         Panel=Color3.fromRGB(15,15,15), Row=Color3.fromRGB(20,20,20), RowHover=Color3.fromRGB(30,30,30),
-        Accent=Color3.fromRGB(255,255,255), AccentLight=Color3.fromRGB(255,255,255),
+        Accent=Color3.fromRGB(160,160,160), AccentLight=Color3.fromRGB(200,200,200),
         Green=Color3.fromRGB(150,150,150), Red=Color3.fromRGB(220,70,70), Red2=Color3.fromRGB(190,50,50),
         Text=Color3.fromRGB(255,255,255), Dim=Color3.fromRGB(180,180,180), Stroke=Color3.fromRGB(255,255,255),
         SoftButton=Color3.fromRGB(20,20,20), SoftButtonHover=Color3.fromRGB(35,35,35),
@@ -507,7 +507,7 @@ function applyTheme(themeName)
             if txt == "ON" or txt == "OFF" or txt == "ADD" or txt == "X" or txt == "▲" or txt == "▼" then
                 inst.TextColor3 = Color3.new(1, 1, 1)
             elseif inst.Size == UDim2.new(0, 50, 0, 20) then -- Keybind bind button
-                inst.TextColor3 = Color3.new(1, 1, 1)
+                inst.TextColor3 = Color3.fromRGB(40, 40, 40) -- Dark grey/Black for visibility on grey background
             end
         elseif inst:IsA("Frame") and inst.Name == "WhiteSliderKnob" then
             inst.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -8000,7 +8000,7 @@ function makeKeybindRow(parent,nameText)
     local row=Instance.new("Frame"); row.Size=UDim2.new(1,-4,0,31); row.BackgroundColor3=Theme.Panel; row.BackgroundTransparency=0.18; row.Parent=parent; corner(row,6)
     local l=Instance.new("TextLabel"); l.Size=UDim2.new(1,-88,1,0); l.Position=UDim2.new(0,8,0,0); l.BackgroundTransparency=1; l.Text=nameText; l.TextColor3=Theme.Text; l.Font=Enum.Font.GothamSemibold; l.TextSize=10; l.TextXAlignment=Enum.TextXAlignment.Left; l.Parent=row
     local x=Instance.new("TextButton"); x.Name="WhiteTextBtn"; x.Size=UDim2.new(0,22,0,20); x.Position=UDim2.new(1,-74,0.5,-10); x.BackgroundColor3=Theme.Red; x.Text="X"; x.TextColor3=Color3.new(1,1,1); x.Font=Enum.Font.GothamBold; x.TextSize=10; x.Parent=row; corner(x,5)
-    local key=Instance.new("TextButton"); key.Name="WhiteTextBtn"; key.Size=UDim2.new(0,50,0,20); key.Position=UDim2.new(1,-50,0.5,-10); key.BackgroundColor3=Theme.Accent; key.Text=Keybinds[nameText] or "NONE"; key.TextColor3=Color3.new(1,1,1); key.Font=Enum.Font.GothamBold; key.TextSize=9; key.Parent=row; corner(key,5)
+    local key=Instance.new("TextButton"); key.Name="WhiteTextBtn"; key.Size=UDim2.new(0,50,0,20); key.Position=UDim2.new(1,-50,0.5,-10); key.BackgroundColor3=Theme.Accent; key.Text=Keybinds[nameText] or "NONE"; key.TextColor3=Color3.fromRGB(40, 40, 40); key.Font=Enum.Font.GothamBold; key.TextSize=9; key.Parent=row; corner(key,5)
     x.MouseButton1Click:Connect(function() Keybinds[nameText]="NONE"; Config.keybinds[nameText]="NONE"; saveConfig(); key.Text="NONE"; if updateMovementPanelLabels then updateMovementPanelLabels() end end)
     key.MouseButton1Click:Connect(function() key.Text="..."
         local con; con=UIS.InputBegan:Connect(function(input,gp) if gp then return end; if input.UserInputType==Enum.UserInputType.Keyboard then Keybinds[nameText]=input.KeyCode.Name; Config.keybinds[nameText]=input.KeyCode.Name; saveConfig(); key.Text=input.KeyCode.Name; if nameText=="Open Menu" then UI.OpenMenuKey=input.KeyCode end; con:Disconnect(); if updateMovementPanelLabels then updateMovementPanelLabels() end end end)
