@@ -278,7 +278,7 @@ Themes = {
         Background=Color3.fromRGB(240,245,255), MainBackground=Color3.fromRGB(235,242,255),
         Panel=Color3.fromRGB(230,238,255), Row=Color3.fromRGB(220,232,255), RowHover=Color3.fromRGB(200,220,255),
         Accent=Color3.fromRGB(30,100,220), AccentLight=Color3.fromRGB(50,120,240),
-        Green=Color3.fromRGB(40,160,100), Red=Color3.fromRGB(200,60,60), Red2=Color3.fromRGB(180,40,40),
+        Green=Color3.fromRGB(150,150,150), Red=Color3.fromRGB(200,60,60), Red2=Color3.fromRGB(180,40,40),
         Text=Color3.fromRGB(20,60,180), Dim=Color3.fromRGB(80,110,180), Stroke=Color3.fromRGB(150,190,255),
         SoftButton=Color3.fromRGB(220,232,255), SoftButtonHover=Color3.fromRGB(200,218,255),
         SoftAccent=Color3.fromRGB(190,210,255), SoftAccentHover=Color3.fromRGB(170,200,255),
@@ -287,20 +287,20 @@ Themes = {
         BlacklistHover=Color3.fromRGB(255,200,200), BlacklistLeave=Color3.fromRGB(220,232,255),
     },
     Dark = {
-        Background=Color3.fromRGB(10,12,20), MainBackground=Color3.fromRGB(5,7,15),
-        Panel=Color3.fromRGB(18,22,38), Row=Color3.fromRGB(22,28,48), RowHover=Color3.fromRGB(30,40,70),
-        Accent=Color3.fromRGB(60,140,255), AccentLight=Color3.fromRGB(80,160,255),
-        Green=Color3.fromRGB(40,200,120), Red=Color3.fromRGB(220,70,70), Red2=Color3.fromRGB(190,50,50),
-        Text=Color3.fromRGB(255,255,255), Dim=Color3.fromRGB(160,185,230), Stroke=Color3.fromRGB(30,55,110),
-        SoftButton=Color3.fromRGB(18,28,55), SoftButtonHover=Color3.fromRGB(25,38,75),
-        SoftAccent=Color3.fromRGB(28,48,95), SoftAccentHover=Color3.fromRGB(35,58,115),
-        ToggleOff=Color3.fromRGB(18,28,55), ToggleOff2=Color3.fromRGB(18,28,55),
-        InputBg=Color3.fromRGB(12,18,38), SliderBg=Color3.fromRGB(35,65,130),
-        BlacklistHover=Color3.fromRGB(80,20,20), BlacklistLeave=Color3.fromRGB(25,35,70),
+        Background=Color3.fromRGB(5,5,5), MainBackground=Color3.fromRGB(0,0,0),
+        Panel=Color3.fromRGB(15,15,15), Row=Color3.fromRGB(20,20,20), RowHover=Color3.fromRGB(30,30,30),
+        Accent=Color3.fromRGB(255,255,255), AccentLight=Color3.fromRGB(255,255,255),
+        Green=Color3.fromRGB(150,150,150), Red=Color3.fromRGB(220,70,70), Red2=Color3.fromRGB(190,50,50),
+        Text=Color3.fromRGB(255,255,255), Dim=Color3.fromRGB(180,180,180), Stroke=Color3.fromRGB(255,255,255),
+        SoftButton=Color3.fromRGB(20,20,20), SoftButtonHover=Color3.fromRGB(35,35,35),
+        SoftAccent=Color3.fromRGB(50,50,50), SoftAccentHover=Color3.fromRGB(70,70,70),
+        ToggleOff=Color3.fromRGB(25,25,25), ToggleOff2=Color3.fromRGB(25,25,25),
+        InputBg=Color3.fromRGB(10,10,10), SliderBg=Color3.fromRGB(150,150,150),
+        BlacklistHover=Color3.fromRGB(80,20,20), BlacklistLeave=Color3.fromRGB(20,20,20),
     }
 }
 Theme = {}
-for k, v in pairs(Themes.Light) do
+for k, v in pairs(Themes.Dark) do
     Theme[k] = v
 end
 
@@ -310,7 +310,7 @@ function applyTheme(themeName)
         fromTheme[k] = v
     end
     
-    local toTheme = Themes[themeName] or Themes.Light
+    local toTheme = Themes[themeName] or Themes.Dark
     for k, v in pairs(toTheme) do
         Theme[k] = v
     end
@@ -348,7 +348,7 @@ function applyTheme(themeName)
             if child:IsA("UIStroke") then
                 child.Color = toTheme.AccentLight
             elseif child:IsA("TextLabel") then
-                if child.Text == "Moh🔥" or child.Text == "|" or child.Text == "discord.gg/mohhub" then
+                if child.Text == "Moh Hub Privat" or child.Text == "|" or child.Text == "discord.gg/mohhub" then
                     child.TextColor3 = toTheme.AccentLight
                 elseif child.Text == "by moha alhrbe" then
                     child.TextColor3 = toTheme.Dim
@@ -697,7 +697,7 @@ loadPSCode()
 
 Config = {
     positions={},keybinds={},actions={},locked=false,
-    DarkMode=false,
+    DarkMode=true,
     AntiRagdoll=false,InfiniteJump=false,Float=false,
     AutoResetBalloon=false,AutoKickOnSteal=false,KickToPrivateServer=false,CleanErrorGUIs=false,
     LineToBase=false,LineToBrainrot=false,InvisStealAngle=225,SinkSliderValue=7,
@@ -1589,7 +1589,7 @@ local function kickPlayer(stolenText)
         return
     end
     pcall(function() game:Shutdown() end)
-    pcall(function() LocalPlayer:Kick("\nMoh🔥") end)
+    pcall(function() LocalPlayer:Kick("\nMoh Hub Privat") end)
 end
 
 -- SHARED STATE
@@ -3263,14 +3263,14 @@ hudGui.DisplayOrder = 998
 hudGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 hudGui.Parent = playerGui
 local STEALBAR = {
-    PANEL = Color3.fromRGB(15, 15, 15),
+    PANEL = Color3.fromRGB(0, 0, 0),
     TEXT = Color3.fromRGB(255, 255, 255),
-    STROKE = Color3.fromRGB(30, 55, 110),
-    GLOW = Color3.fromRGB(60, 140, 255),
-    TRACK = Color3.fromRGB(18, 28, 55),
-    TRACK2 = Color3.fromRGB(12, 18, 38),
-    FILL1 = Color3.fromRGB(60, 140, 255),
-    FILL2 = Color3.fromRGB(80, 160, 255),
+    STROKE = Color3.fromRGB(255, 255, 255),
+    GLOW = Color3.fromRGB(255, 255, 255),
+    TRACK = Color3.fromRGB(20, 20, 20),
+    TRACK2 = Color3.fromRGB(10, 10, 10),
+    FILL1 = Color3.fromRGB(255, 255, 255),
+    FILL2 = Color3.fromRGB(255, 255, 255),
 }
 
 local mobileScale = UIS.TouchEnabled and 0.6 or 1
@@ -3356,8 +3356,8 @@ Instance.new("UICorner", hudProgressFill).CornerRadius = UDim.new(0, math.floor(
 
 local hudProgressFillGradient = Instance.new("UIGradient", hudProgressFill)
 hudProgressFillGradient.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, STEALBAR.FILL1),
-    ColorSequenceKeypoint.new(1, STEALBAR.FILL2),
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255)),
 })
 
 local hudProgressFillStroke = Instance.new("UIStroke", hudProgressFill)
@@ -3450,7 +3450,7 @@ RunService.RenderStepped:Connect(function()
 
     if LocalPlayer:GetAttribute("Stealing") then
         hudProgressFill.Size = UDim2.new(1, 0, 1, 0)
-        hudProgressFill.BackgroundColor3 = Theme.Green or Color3.fromRGB(80, 220, 120)
+        hudProgressFill.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         hudPercent.Text = "100%"
         hudName.Text = "Carrying Brainrot!"
         return
@@ -3461,18 +3461,18 @@ RunService.RenderStepped:Connect(function()
         local p = math.clamp((tick() - (status.start or 0)) / (status.duration or 1.3), 0, 1)
         hudProgressFill.Size = UDim2.new(p, 0, 1, 0)
         hudPercent.Text = math.floor(p * 100) .. "%"
-        hudProgressFill.BackgroundColor3 = (p >= 1) and (Theme.Green or Color3.fromRGB(80, 220, 120)) or (Theme.AccentLight or STEALBAR.FILL1)
+        hudProgressFill.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         hudName.Text = "Stealing..."
     elseif status.target then
         hudProgressFill.Size = UDim2.new(0, 0, 1, 0)
         hudPercent.Text = "0%"
-        hudProgressFill.BackgroundColor3 = Theme.AccentLight or STEALBAR.FILL1
+        hudProgressFill.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         local vs = _pbFmtVal(status.target.mps or status.target.value)
         hudName.Text = (status.target.name or "Brainrot") .. ((vs ~= "0") and (" - $" .. vs) or "")
     else
         hudProgressFill.Size = UDim2.new(0, 0, 1, 0)
         hudPercent.Text = "0%"
-        hudProgressFill.BackgroundColor3 = Theme.AccentLight or STEALBAR.FILL1
+        hudProgressFill.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         hudName.Text = "Searching..."
     end
 end)
@@ -7796,8 +7796,8 @@ end
 
 function makeHeader(f,t,isMain) local h=Instance.new("Frame"); h.Size=UDim2.new(1,0,0,42); h.BackgroundTransparency=1; h.Parent=f
     local parts={}; for s in string.gmatch(t,"([^\n]+)") do table.insert(parts,s) end
-    if isMain then local l=Instance.new("TextLabel"); l.Size=UDim2.new(1,-50,0,24); l.Position=UDim2.new(0,13,0,8); l.BackgroundTransparency=1; l.Text=parts[1] or "moh🔥"; l.TextColor3=Theme.Text; l.Font=Enum.Font.GothamBlack; l.TextSize=16; l.TextXAlignment=Enum.TextXAlignment.Left; l.Parent=h
-    else local l=Instance.new("TextLabel"); l.Size=UDim2.new(1,-58,0,16); l.Position=UDim2.new(0,12,0,7); l.BackgroundTransparency=1; l.Text=parts[1] or "Moh🔥"; l.TextColor3=Theme.Text; l.Font=Enum.Font.GothamBlack; l.TextSize=12; l.TextXAlignment=Enum.TextXAlignment.Center; l.Parent=h
+    if isMain then local l=Instance.new("TextLabel"); l.Size=UDim2.new(1,-50,0,24); l.Position=UDim2.new(0,13,0,8); l.BackgroundTransparency=1; l.Text=parts[1] or "Moh Hub Privat"; l.TextColor3=Theme.Text; l.Font=Enum.Font.GothamBlack; l.TextSize=16; l.TextXAlignment=Enum.TextXAlignment.Left; l.Parent=h
+    else local l=Instance.new("TextLabel"); l.Size=UDim2.new(1,-58,0,16); l.Position=UDim2.new(0,12,0,7); l.BackgroundTransparency=1; l.Text=parts[1] or "Moh Hub Privat"; l.TextColor3=Theme.Text; l.Font=Enum.Font.GothamBlack; l.TextSize=12; l.TextXAlignment=Enum.TextXAlignment.Center; l.Parent=h
         local s=Instance.new("TextLabel"); s.Size=UDim2.new(1,-58,0,13); s.Position=UDim2.new(0,12,0,21); s.BackgroundTransparency=1; s.Text=parts[2] or ""; s.TextColor3=Theme.Dim; s.Font=Enum.Font.GothamMedium; s.TextSize=10; s.TextXAlignment=Enum.TextXAlignment.Center; s.Parent=h end
     local d=Instance.new("Frame"); d.Size=UDim2.new(1,-24,0,1); d.Position=UDim2.new(0,12,0,40); d.BackgroundColor3=Theme.AccentLight; d.BackgroundTransparency=isMain and 0.25 or 0.04; d.BorderSizePixel=0; d.Parent=f
     makeDraggable(f,h,t); return h end
@@ -8008,24 +8008,24 @@ function makeKeybindRow(parent,nameText)
 end
 
 -- CREATE PANELS
-main,mainBody=makeMainPanel("Moh🔥",UDim2.new(0,375,0,480),UDim2.new(0.5,-187,0.5,-255))
+main,mainBody=makeMainPanel("Moh Hub Privat",UDim2.new(0,375,0,480),UDim2.new(0.5,-187,0.5,-255))
 if Config.AutoCloseOnExec then main.Visible = false end
-panels["Invisible Steal Panel"],panels["InvisStealBody"]=makeQuickPanel("Moh🔥\nInvisible Steal",UDim2.new(0,230,0,375),UDim2.new(0,80,0.5,-220))
+panels["Invisible Steal Panel"],panels["InvisStealBody"]=makeQuickPanel("Moh Hub Privat\nInvisible Steal",UDim2.new(0,230,0,375),UDim2.new(0,80,0.5,-220))
 panels["InvisStealBody"].ScrollBarThickness = 0
 panels["InvisStealBody"].ScrollingEnabled = false
-panels["Admin Command Panel"],panels["AdminBody"]=makeQuickPanel("Moh🔥\nAdmin Command Panel",UDim2.new(0,225,0,240),UDim2.new(0.5,85,1,-340))
-panels["Command Cooldowns"],panels["CooldownBody"]=makeQuickPanel("Moh🔥\nCommand Cooldowns",UDim2.new(0,210,0,315),UDim2.new(0.5,245,1,-390))
-panels["Actions"],panels["ActionsBody"]=makeQuickPanel("Moh🔥\nActions",UDim2.new(0,230,0,340),UDim2.new(0.5,505,1,-415))
-panels["Steal Panel"],panels["StealBody"]=makeQuickPanel("Moh🔥\nSteal Panel",UDim2.new(0,235,0,300),UDim2.new(1,-300,1,-385))
-panels["Steal Target"],panels["TargetBody"]=makeQuickPanel("Moh🔥\nSteal Target",UDim2.new(0,320,0,380),UDim2.new(1,-330,0,85))
-actionSettingsPanel,actionSettingsBody=makeQuickPanel("Moh🔥\nAction Settings",UDim2.new(0,230,0,370),UDim2.new(0.5,745,1,-440))
+panels["Admin Command Panel"],panels["AdminBody"]=makeQuickPanel("Moh Hub Privat\nAdmin Command Panel",UDim2.new(0,225,0,240),UDim2.new(0.5,85,1,-340))
+panels["Command Cooldowns"],panels["CooldownBody"]=makeQuickPanel("Moh Hub Privat\nCommand Cooldowns",UDim2.new(0,210,0,315),UDim2.new(0.5,245,1,-390))
+panels["Actions"],panels["ActionsBody"]=makeQuickPanel("Moh Hub Privat\nActions",UDim2.new(0,230,0,340),UDim2.new(0.5,505,1,-415))
+panels["Steal Panel"],panels["StealBody"]=makeQuickPanel("Moh Hub Privat\nSteal Panel",UDim2.new(0,235,0,300),UDim2.new(1,-300,1,-385))
+panels["Steal Target"],panels["TargetBody"]=makeQuickPanel("Moh Hub Privat\nSteal Target",UDim2.new(0,320,0,380),UDim2.new(1,-330,0,85))
+actionSettingsPanel,actionSettingsBody=makeQuickPanel("Moh Hub Privat\nAction Settings",UDim2.new(0,230,0,370),UDim2.new(0.5,745,1,-440))
 actionSettingsPanel.Visible=false
-tpSpeedSettingsPanel,tpSpeedSettingsBody=makeQuickPanel("Moh🔥\nTP & Clone Settings",UDim2.new(0,235,0,325),UDim2.new(0.5,745,1,-440))
+tpSpeedSettingsPanel,tpSpeedSettingsBody=makeQuickPanel("Moh Hub Privat\nTP & Clone Settings",UDim2.new(0,235,0,325),UDim2.new(0.5,745,1,-440))
 tpSpeedSettingsPanel.Visible=false
-for _,pair in ipairs({{"Moh🔥",main},{"Moh🔥nInvisible Steal",panels["Invisible Steal Panel"]},
-    {"Moh🔥\nAdmin Command Panel",panels["Admin Command Panel"]},{"Moh🔥\nCommand Cooldowns",panels["Command Cooldowns"]},
-    {"Moh🔥\nActions",panels["Actions"]},{"Moh🔥\nSteal Panel",panels["Steal Panel"]},{"Moh🔥\nSteal Target",panels["Steal Target"]},
-    {"Moh🔥\nAction Settings",actionSettingsPanel},{"Moh🔥\nTP & Clone Settings",tpSpeedSettingsPanel}}) do applySavedPosition(pair[1],pair[2]) end
+for _,pair in ipairs({{"Moh Hub Privat",main},{"Moh Hub PrivatnInvisible Steal",panels["Invisible Steal Panel"]},
+    {"Moh Hub Privat\nAdmin Command Panel",panels["Admin Command Panel"]},{"Moh Hub Privat\nCommand Cooldowns",panels["Command Cooldowns"]},
+    {"Moh Hub Privat\nActions",panels["Actions"]},{"Moh Hub Privat\nSteal Panel",panels["Steal Panel"]},{"Moh Hub Privat\nSteal Target",panels["Steal Target"]},
+    {"Moh Hub Privat\nAction Settings",actionSettingsPanel},{"Moh Hub Privat\nTP & Clone Settings",tpSpeedSettingsPanel}}) do applySavedPosition(pair[1],pair[2]) end
 
 -- LAZY UI LOADING
 if _G.addLazyUI then
@@ -9440,7 +9440,7 @@ for tabName,btn in pairs(tabButtons) do btn.MouseButton1Click:Connect(function()
 
 -- BOTTOM BAR
 bottomBar=Instance.new("Frame"); bottomBar.Size=UDim2.new(0,575,0,50); bottomBar.Position=UDim2.new(0.5,-287,1,-125); bottomBar.BackgroundColor3=Theme.Background; bottomBar.BackgroundTransparency=0.02; bottomBar.BorderSizePixel=0; bottomBar.Parent=gui; corner(bottomBar,12); addOutline(bottomBar)
-local lg=Instance.new("TextLabel"); lg.Size=UDim2.new(0,150,0,26); lg.Position=UDim2.new(0,12,0,5); lg.BackgroundTransparency=1; lg.Text="Moh🔥"; lg.TextColor3=Theme.AccentLight; lg.Font=Enum.Font.GothamBlack; lg.TextSize=19; lg.TextXAlignment=Enum.TextXAlignment.Left; lg.Parent=bottomBar
+local lg=Instance.new("TextLabel"); lg.Size=UDim2.new(0,150,0,26); lg.Position=UDim2.new(0,12,0,5); lg.BackgroundTransparency=1; lg.Text="Moh Hub Privat"; lg.TextColor3=Theme.AccentLight; lg.Font=Enum.Font.GothamBlack; lg.TextSize=19; lg.TextXAlignment=Enum.TextXAlignment.Left; lg.Parent=bottomBar
 local dd=Instance.new("TextLabel"); dd.Size=UDim2.new(0,20,0,26); dd.Position=UDim2.new(0,170,0,5); dd.BackgroundTransparency=1; dd.Text="|"; dd.TextColor3=Theme.AccentLight; dd.Font=Enum.Font.GothamBlack; dd.TextSize=18; dd.Parent=bottomBar
 local dc=Instance.new("TextLabel"); dc.Size=UDim2.new(0,210,0,26); dc.Position=UDim2.new(0,190,0,5); dc.BackgroundTransparency=1; dc.Text="discord.gg/mohhub"; dc.TextColor3=Theme.AccentLight; dc.Font=Enum.Font.GothamBold; dc.TextSize=16; dc.TextXAlignment=Enum.TextXAlignment.Left; dc.Parent=bottomBar
 local sb=Instance.new("TextLabel"); sb.Size=UDim2.new(0,290,0,14); sb.Position=UDim2.new(0,13,0,30); sb.BackgroundTransparency=1; sb.Text="by moha alhrbe"; sb.TextColor3=Theme.Dim; sb.Font=Enum.Font.GothamSemibold; sb.TextSize=8; sb.TextXAlignment=Enum.TextXAlignment.Left; sb.Parent=bottomBar
@@ -9566,7 +9566,7 @@ end)
 _G.InvisStealAngle=Config.InvisStealAngle or 225; _G.SinkSliderValue=Config.SinkSliderValue or 7
 _G.AutoRecoverLagback=true; _G.AutoInvisDuringSteal=Config.AutoInvisDuringSteal or false
 
-print("Moh🔥 loaded ")
+print("Moh Hub Privat loaded ")
 
 
 task.spawn(function()
