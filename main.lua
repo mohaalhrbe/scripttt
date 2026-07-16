@@ -3265,12 +3265,12 @@ hudGui.Parent = playerGui
 local STEALBAR = {
     PANEL = Color3.fromRGB(15, 15, 15),
     TEXT = Color3.fromRGB(255, 255, 255),
-    STROKE = Color3.fromRGB(60, 40, 55),
-    GLOW = Color3.fromRGB(232, 111, 177),
-    TRACK = Color3.fromRGB(55, 40, 50),
-    TRACK2 = Color3.fromRGB(35, 30, 35),
-    FILL1 = Color3.fromRGB(238, 98, 178),
-    FILL2 = Color3.fromRGB(232, 111, 177),
+    STROKE = Color3.fromRGB(30, 55, 110),
+    GLOW = Color3.fromRGB(60, 140, 255),
+    TRACK = Color3.fromRGB(18, 28, 55),
+    TRACK2 = Color3.fromRGB(12, 18, 38),
+    FILL1 = Color3.fromRGB(60, 140, 255),
+    FILL2 = Color3.fromRGB(80, 160, 255),
 }
 
 local mobileScale = UIS.TouchEnabled and 0.6 or 1
